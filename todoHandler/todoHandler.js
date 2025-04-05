@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
+const todoSchema = require('../schemas/todoSchema');
+const Todo = new mongoose.model("Todo", todoSchema);
 
 // get all todos
 router.get("/", async(req, res) => {
