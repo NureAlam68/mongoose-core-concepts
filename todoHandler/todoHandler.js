@@ -5,10 +5,70 @@ const todoSchema = require("../schemas/todoSchema");
 const Todo = new mongoose.model("Todo", todoSchema);
 
 // get all todos
-router.get("/", async (req, res) => {});
+// router.get("/", async (req, res) => {
+//   try {
+//     const todos = await Todo.find();
+//     res.status(200).json({
+//       message: "Todos fetched successfully",
+//       todos: todos,
+//     });
+//   } catch (err) {
+//     res.status(500).json({
+//       error: "Failed to fetch todos",
+//     });
+//   }
+// });
+
+// get all todos with filter
+// router.get("/", async (req, res) => {
+//   try {
+//     const todos = await Todo.find({ status: "active" });
+//     res.status(200).json({
+//       message: "Todos fetched successfully",
+//       todos: todos,
+//     });
+//   } catch (err) {
+//     res.status(500).json({
+//       error: "Failed to fetch todos",
+//     });
+//   }
+// });
+
+// get all todos with selected fields and limit
+router.get("/", async (req, res) => {
+  try {
+    const todos = await Todo.find()
+      .select({
+        _id: 0,
+        createdAt: 0,
+        __v: 0,
+      })
+      .limit(2);
+    res.status(200).json({
+      message: "Todos fetched successfully",
+      todos: todos,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: "Failed to fetch todos",
+    });
+  }
+});
 
 // get todo by id
-router.get("/:id", async (req, res) => {});
+router.get("/:id", async (req, res) => {
+  try {
+    const todo = await Todo.find({ _id: req.params.id });
+    res.status(200).json({
+      message: "Todo fetched successfully",
+      todos: todo,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: "Failed to fetch todo",
+    });
+  }
+});
 
 // create todo
 router.post("/", async (req, res) => {
@@ -96,7 +156,6 @@ router.put("/:id", async (req, res) => {
     });
   }
 });
-  
 
 // delete todo by id
 router.delete("/:id", async (req, res) => {});
