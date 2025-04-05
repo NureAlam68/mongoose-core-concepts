@@ -42,7 +42,61 @@ router.post("/all", async (req, res) => {
 });
 
 // update todo by id
-router.put("/:id", async (req, res) => {});
+// router.put("/:id", async (req, res) => {
+//   try {
+//     const result = await Todo.updateOne(
+//       { _id: req.params.id },
+//       {
+//         $set: {
+//           status: "active",
+//         },
+//       }
+//     );
+
+//     if (result.modifiedCount === 0) {
+//       console.log(result);
+//       return res.status(404).json({
+//         message: "Todo not found or already updated",
+//       });
+//     }
+
+//     res.status(200).json({
+//       message: "Todo updated successfully",
+//     });
+//   } catch (err) {
+//     res.status(500).json({
+//       error: "Failed to update todo",
+//     });
+//   }
+// });
+
+router.put("/:id", async (req, res) => {
+  try {
+    const updatedTodo = await Todo.findByIdAndUpdate(
+      req.params.id,
+      { $set: { status: "active" } },
+      { new: true }
+    );
+
+    if (!updatedTodo) {
+      return res.status(404).json({
+        message: "Todo not found",
+      });
+    }
+
+    console.log(updatedTodo);
+
+    res.status(200).json({
+      message: "Todo updated successfully",
+      todo: updatedTodo,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: "Failed to update todo",
+    });
+  }
+});
+  
 
 // delete todo by id
 router.delete("/:id", async (req, res) => {});
