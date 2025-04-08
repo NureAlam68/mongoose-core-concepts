@@ -23,4 +23,11 @@ todoSchema.methods = {
     }
 }
 
+// static method
+todoSchema.statics = {
+    findByWeb: function() {
+        return this.find({title: /web/i})
+    }
+}
+
 module.exports = todoSchema;

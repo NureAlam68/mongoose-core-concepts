@@ -71,6 +71,21 @@ router.get("/active", async (req, res) => {
   }
 });
 
+// get todos by title
+router.get("/web", async(req, res) => {
+  try {
+    const todos = await Todo.findByWeb(); // using static method to get todos by title
+    res.status(200).json({
+      message: "Todos fetched successfully",
+      todos: todos,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: "Failed to fetch todos",
+    });
+  }
+})
+
 // get todo by id
 router.get("/:id", async (req, res) => {
   try {
