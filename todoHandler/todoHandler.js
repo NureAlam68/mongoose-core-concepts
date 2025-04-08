@@ -43,7 +43,7 @@ router.get("/", async (req, res) => {
         createdAt: 0,
         __v: 0,
       })
-      .limit(2);
+      .limit(5);
     res.status(200).json({
       message: "Todos fetched successfully",
       todos: todos,
@@ -85,6 +85,21 @@ router.get("/web", async(req, res) => {
     });
   }
 })
+
+// get todos by language
+router.get("/language", async (req, res) => {
+  try {
+    const todos = await Todo.find().byLanguage("react"); // using query helper to get todos by language
+    res.status(200).json({
+      message: "Todos fetched successfully",
+      todos: todos,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: "Failed to fetch todos",
+    });
+  }
+});
 
 // get todo by id
 router.get("/:id", async (req, res) => {
