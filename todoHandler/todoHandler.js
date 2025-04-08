@@ -55,6 +55,22 @@ router.get("/", async (req, res) => {
   }
 });
 
+// get active todos
+router.get("/active", async (req, res) => {
+  try {
+    const todo = new Todo();
+    const todos = await todo.findActive(); // using custom method to get active todos
+    res.status(200).json({
+      message: "Active Todos fetched successfully",
+      todos: todos,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: "Failed to fetch active todos",
+    });
+  }
+});
+
 // get todo by id
 router.get("/:id", async (req, res) => {
   try {
